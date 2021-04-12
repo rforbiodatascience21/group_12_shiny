@@ -19,12 +19,12 @@ library(shinythemes)
 ui <- fluidPage(theme = shinytheme("cerulean"),
                 navbarPage(
                   # theme = "cerulean",  # <--- To use a theme, uncomment this
-                  "My first app",
+                  "DNA analysis tool",
                   tabPanel("Navbar 1",
                            sidebarPanel(
                              tags$h3("Input:"),
-                             textInput("txt1", "Given Name:", ""),
-                             textInput("txt2", "Surname:", ""),
+                             textInput("txt1", "DNA sequence:", ""),
+                             #textInput("txt2", "Surname:", ""),
                              
                            ), # sidebarPanel
                            mainPanel(
@@ -36,8 +36,8 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                            ) # mainPanel
                            
                   ), # Navbar 1, tabPanel
-                  tabPanel("Navbar 2", "This panel is intentionally left blank"),
-                  tabPanel("Navbar 3", "This panel is intentionally left blank")
+                  #tabPanel("Navbar 2", "This panel is intentionally left blank"),
+                  #tabPanel("Navbar 3", "This panel is intentionally left blank")
                   
                 ) # navbarPage
 ) # fluidPage
