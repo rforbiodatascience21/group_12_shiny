@@ -1,19 +1,7 @@
-####################################
-# Data Professor                   #
-# http://youtube.com/dataprofessor #
-# http://github.com/dataprofessor  #
-####################################
-
-# Modified from Winston Chang, 
-# https://shiny.rstudio.com/gallery/shiny-theme-selector.html
-
-# Concepts about Reactive programming used by Shiny, 
-# https://shiny.rstudio.com/articles/reactivity-overview.html
-
 # Load R packages
 library(shiny)
 library(shinythemes)
-library("tidyverse")
+library(tidyverse)
 
 #functions:
 complement <- function(dna){
@@ -63,7 +51,7 @@ plot_bases <- function(dna) {
   #data <- tibble(A = a_percent, T = t_percent, C = c_percent, G = g_percent)
   data <- tibble(bases=c("A", "T", "C", "G"), percentages=c(a_percent, t_percent, c_percent, g_percent))
   
-  base_plot <- data %>% ggplot(aes(x=bases, y=percentages)) +
+  base_plot <- data %>% ggplot(aes(x=bases, y=percentages, fill = bases)) +
     geom_bar(stat="identity") 
   
   return(base_plot)
@@ -74,7 +62,7 @@ ui <- fluidPage(theme = shinytheme("superhero"),
                 navbarPage(
                   theme = "superhero",  # <--- To use a theme, uncomment this
                   "DNA analysis tool",
-                  tabPanel("Navbar 1",
+                  tabPanel("DNA analysis",
                            sidebarPanel(
                              tags$h3("Input:"),
                              textInput("txt1", "DNA sequence:", ""),
@@ -86,7 +74,8 @@ ui <- fluidPage(theme = shinytheme("superhero"),
                                           class = "btn-success"),
                              actionButton("aa", "Make aminoacid",
                                           class = "btn-info"),
-                             actionButton("plot1", "Make plot")
+                             actionButton("plot1", "Make plot",
+                                          class = "btn-warning")
                            ), # sidebarPanel
                            mainPanel(
                              h1("Output"),
@@ -133,7 +122,6 @@ server <- function(input, output) {
   })
 
 } # server
-
 
 
 # Create Shiny object
