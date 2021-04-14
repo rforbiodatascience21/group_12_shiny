@@ -52,9 +52,9 @@ dna_codons_to_aa <- function(codons){
 }
 
 # Define UI
-ui <- fluidPage(theme = shinytheme("cerulean"),
+ui <- fluidPage(theme = shinytheme("yeti"),
                 navbarPage(
-                  # theme = "cerulean",  # <--- To use a theme, uncomment this
+                  theme = "yeti",  # <--- To use a theme, uncomment this
                   "DNA analysis tool",
                   tabPanel("Navbar 1",
                            sidebarPanel(
