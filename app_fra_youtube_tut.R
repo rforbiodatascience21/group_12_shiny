@@ -13,6 +13,7 @@
 # Load R packages
 library(shiny)
 library(shinythemes)
+library("tidyverse")
 
 #functions:
 complement <- function(dna){
@@ -51,6 +52,23 @@ dna_codons_to_aa <- function(codons){
   return(aa)
 }
 
+plot_bases <- function(dna) {
+  l = str_length(dna)
+  #get percentages for each base
+  a_percent <- (str_count(dna, "A")/l)*100
+  t_percent <- (str_count(dna, "T")/l)*100
+  c_percent <- (str_count(dna, "C")/l)*100
+  g_percent <- (str_count(dna, "G")/l)*100
+  
+  #data <- tibble(A = a_percent, T = t_percent, C = c_percent, G = g_percent)
+  data <- tibble(bases=c("A", "T", "C", "G"), percentages=c(a_percent, t_percent, c_percent, g_percent))
+  
+  base_plot <- data %>% ggplot(aes(x=bases, y=percentages)) +
+    geom_bar(stat="identity") 
+  
+  return(base_plot)
+}
+
 # Define UI
 ui <- fluidPage(theme = shinytheme("superhero"),
                 navbarPage(
@@ -67,7 +85,8 @@ ui <- fluidPage(theme = shinytheme("superhero"),
                              actionButton("codon", "Make codons",
                                           class = "btn-success"),
                              actionButton("aa", "Make aminoacid",
-                                          class = "btn-info")
+                                          class = "btn-info"),
+                             actionButton("plot1", "Make plot")
                            ), # sidebarPanel
                            mainPanel(
                              h1("Output"),
@@ -75,6 +94,8 @@ ui <- fluidPage(theme = shinytheme("superhero"),
                              h4("Result"),
                              verbatimTextOutput("txtout"),
                              
+                             h4("Plot of base content"),
+                             plotOutput("example_plot", width = "100%"),
                            ) # mainPanel
                            
                   ) # Navbar 1, tabPanel
@@ -103,6 +124,12 @@ server <- function(input, output) {
   
   output$txtout <- renderText({
     paste( v$data,sep = " " )
+  })
+  
+  observeEvent(input$plot1, {
+    output$example_plot <- renderPlot({
+      return(plot_bases(input$txt1))
+    })
   })
 
 } # server
