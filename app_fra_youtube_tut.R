@@ -52,9 +52,9 @@ dna_codons_to_aa <- function(codons){
 }
 
 # Define UI
-ui <- fluidPage(theme = shinytheme("yeti"),
+ui <- fluidPage(theme = shinytheme("superhero"),
                 navbarPage(
-                  theme = "yeti",  # <--- To use a theme, uncomment this
+                  theme = "superhero",  # <--- To use a theme, uncomment this
                   "DNA analysis tool",
                   tabPanel("Navbar 1",
                            sidebarPanel(
@@ -62,8 +62,12 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                              textInput("txt1", "DNA sequence:", ""),
               
                              #actionbar
-                             actionButton("com", "Complementary DNA"),
-                             actionButton("codon", "Make codons")
+                             actionButton("com", "Complementary DNA", 
+                                          class = "btn-danger"),
+                             actionButton("codon", "Make codons",
+                                          class = "btn-success"),
+                             actionButton("aa", "Make aminoacid",
+                                          class = "btn-info")
                            ), # sidebarPanel
                            mainPanel(
                              h1("Output"),
@@ -93,10 +97,16 @@ server <- function(input, output) {
     v$data <- mk_codons(input$txt1)
   })
   
+  observeEvent(input$aa, {
+    v$data <- dna_codons_to_aa(mk_codons(input$txt1))
+  })
+  
   output$txtout <- renderText({
     paste( v$data,sep = " " )
   })
+
 } # server
+
 
 
 # Create Shiny object
